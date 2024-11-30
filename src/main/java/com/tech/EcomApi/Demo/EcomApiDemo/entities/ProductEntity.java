@@ -3,8 +3,8 @@ package com.tech.EcomApi.Demo.EcomApiDemo.entities;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "tb_products")
@@ -15,7 +15,7 @@ public class ProductEntity {
     private Long productId;
 
     private String productName;
-    private String productPrice;
+    private BigDecimal productPrice;
 
     @OneToMany(mappedBy = "id.product", cascade = CascadeType.ALL)
     private List<OrderItemEntity> items;
@@ -47,11 +47,11 @@ public class ProductEntity {
         this.productName = productName;
     }
 
-    public String getProductPrice() {
+    public BigDecimal getProductPrice() {
         return productPrice;
     }
 
-    public void setProductPrice(String productPrice) {
+    public void setProductPrice(BigDecimal productPrice) {
         this.productPrice = productPrice;
     }
 
