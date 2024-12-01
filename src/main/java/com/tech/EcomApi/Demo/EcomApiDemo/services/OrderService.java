@@ -4,9 +4,12 @@ import com.tech.EcomApi.Demo.EcomApiDemo.entities.*;
 import com.tech.EcomApi.Demo.EcomApiDemo.entities.dtos.CreateOrderDto;
 import com.tech.EcomApi.Demo.EcomApiDemo.entities.dtos.CustomErrorHandling;
 import com.tech.EcomApi.Demo.EcomApiDemo.entities.dtos.OrderItemDto;
+import com.tech.EcomApi.Demo.EcomApiDemo.entities.dtos.OrderSummaryDto;
 import com.tech.EcomApi.Demo.EcomApiDemo.repositories.OrderRepository;
 import com.tech.EcomApi.Demo.EcomApiDemo.repositories.ProductRepository;
 import com.tech.EcomApi.Demo.EcomApiDemo.repositories.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -91,4 +94,15 @@ public class OrderService {
         return orderItem;
     }
 
+    public Page<OrderSummaryDto> findAll(Integer page, Integer pageSize) {
+
+        return orderRepository.findAll(PageRequest.of(page, pageSize))
+                .map(entity -> new OrderSummaryDto(
+                        entity.getOrderId(),
+                        entity.getOrderDate(),
+                        entity.getUser().getFullName(),
+                        entity.getTotal()
+                ) );
+
+    }
 }
