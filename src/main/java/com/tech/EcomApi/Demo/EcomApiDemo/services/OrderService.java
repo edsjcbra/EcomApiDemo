@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -104,5 +105,9 @@ public class OrderService {
                         entity.getTotal()
                 ) );
 
+    }
+
+    public Optional<OrderEntity> findOrderById(Long orderId) {
+        return orderRepository.findById(orderId);
     }
 }

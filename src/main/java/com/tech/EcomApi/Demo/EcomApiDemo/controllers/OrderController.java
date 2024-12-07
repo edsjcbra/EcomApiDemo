@@ -1,16 +1,14 @@
 package com.tech.EcomApi.Demo.EcomApiDemo.controllers;
 
 
-import com.tech.EcomApi.Demo.EcomApiDemo.entities.dtos.ApiPageResponse;
-import com.tech.EcomApi.Demo.EcomApiDemo.entities.dtos.CreateOrderDto;
-import com.tech.EcomApi.Demo.EcomApiDemo.entities.dtos.OrderSummaryDto;
-import com.tech.EcomApi.Demo.EcomApiDemo.entities.dtos.PaginationResponse;
+import com.tech.EcomApi.Demo.EcomApiDemo.entities.dtos.*;
 import com.tech.EcomApi.Demo.EcomApiDemo.services.OrderService;
 import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/orders")
@@ -41,6 +39,14 @@ public class OrderController {
                                         response.getTotalElements(),
                                         response.getTotalPages())
         ));
+    }
 
+    @GetMapping("/{orderId}")
+    public ResponseEntity<OrderResponseDto> getAllOrders(@PathVariable("orderId") Long orderId) {
+        var response = orderService.findOrderById(orderId);
+
+        return response.isPresent() ?
+                ResponseEntity.ok(OrderResponseDto.fromEntity(response.get())) :
+                ResponseEntity.notFound().build();
     }
 }
